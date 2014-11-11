@@ -1,0 +1,14 @@
+---
+
+- hosts: drupals
+  vars:
+    drush_version: 6.4.0
+    drush_archive: "{{ drush_version }}.tar.gz"
+    drush_archive_path: https://github.com/drush-ops/drush/archive/
+    drush_dir: "{{ bin_dir }}drush-{{ drush_version }}/"
+  tasks:
+  - command: /bin/mkdir {{ tmp_dir }} creates={{ tmp_dir }}
+  - command: /bin/mkdir {{ bin_dir }} creates={{ bin_dir }}
+  - get_url: url={{ drush_archive_path ~ drush_archive}} dest={{ tmp_dir ~ drush_archive }}
+  - unarchive: src={{ tmp_dir ~ drush_archive }} dest={{ bin_dir }} copy=no creates={{ drush_dir }}
+  - command: "{{ drush_dir }}drush pm-update --yes chdir={{ drupal_root }}"

@@ -1,0 +1,10 @@
+drupdate:
+  build: .
+  volumes:
+  - .:/app
+  working_dir: /app
+  environment:
+    API_ENDPOINT:
+    API_USER:
+    API_PASS:
+  command: /bin/sh run.sh
